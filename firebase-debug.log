@@ -1,0 +1,25 @@
+[debug] [2021-11-01T23:18:31.126Z] ----------------------------------------------------------------------
+[debug] [2021-11-01T23:18:31.139Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\dmorr\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2021-11-01T23:18:31.140Z] CLI Version:   9.21.0
+[debug] [2021-11-01T23:18:31.141Z] Platform:      win32
+[debug] [2021-11-01T23:18:31.141Z] Node Version:  v14.17.3
+[debug] [2021-11-01T23:18:31.144Z] Time:          Mon Nov 01 2021 16:18:31 GMT-0700 (Pacific Daylight Time)
+[debug] [2021-11-01T23:18:31.145Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-11-01T23:18:31.368Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-11-01T23:18:31.369Z] > authorizing via signed-in user (dmorris@morrisdev.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\dmorr\source\repos\FireBase\angularfirebase-authentication
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
