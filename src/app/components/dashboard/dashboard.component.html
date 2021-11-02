@@ -38,8 +38,8 @@
         <div class="row" *ngIf="authService.userData as user">
           <div class="col-md-12">
             <div class="media">
-              <img class="align-self-start mr-5 img-thumbnail rounded-circle" src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}"
-                alt="{{user.displayName}}">
+              <img class="align-self-start mr-5 img-thumbnail rounded-circle"
+                src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}" alt="{{user.displayName}}">
               <div class="media-body">
                 <h1>Hello: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h1>
                 <p>User ID: <strong>{{user.uid}}</strong></p>
@@ -49,9 +49,17 @@
             </div>
           </div>
         </div>
-        squares {{ squares | json  }}
+         <div *ngIf="squares">
+          <h1>Game {{squares.game}} - {{squares.opponent}}</h1>
+          <ul>
+            <li *ngFor="let box of squares?.boxes">{{box.name}} {{box.home}}-{{box.away}}</li>
+          </ul>
+        </div>
       </div>
     </main>
+    <button (click)='renameBox(newName.value)'>Rename</button>
 
-  </div>
+    <div class="formGroup">
+      <input type="text" placeholder="name" #newName>
+    </div>  </div>
 </div>

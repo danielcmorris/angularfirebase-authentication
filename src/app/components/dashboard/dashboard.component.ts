@@ -2,9 +2,11 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from "../../shared/services/auth.service";
 import { Router } from "@angular/router";
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { FirebaseDatabase, FirebaseFirestore, FirebaseFunctions } from '@angular/fire';
+import { FirebaseDatabase, FirebaseFirestore, FirebaseFunctions, } from '@angular/fire';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Box, Square } from 'src/app/models/square';
+import { SafeMethodCall } from '@angular/compiler';
 
 
 @Component({
@@ -13,8 +15,10 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
+  square$: Observable<Square[]>;
   squares;
+  boxes;
+  boxes$: Observable<Box[]>;
   dblist: AngularFirestoreCollection<any>;
 
   constructor(
@@ -23,33 +27,64 @@ export class DashboardComponent implements OnInit {
     public router: Router,
     public ngZone: NgZone
   ) {
-    this.dblist = this.afs.collection<any>('squares', ref => {
-      return ref.where("game", "==", 1)
-    });
 
-     this.dblist.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          console.log('data', data)
-          let retval = JSON.parse(JSON.stringify(data));
-          this.squares=retval;
-          return { retval };
-        });
-      })).subscribe();
-
- 
-
+    this.getSquare(11);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
+    this.square$.subscribe(data => {
+      let id = data[0].id;
+      this.squares = data[0]
+
+      this.getSquareBoxes(id)
+      this.boxes$.subscribe(myBoxes => {
+        this.boxes = myBoxes;
+        this.squares.boxes = myBoxes;
+      })
+
+
+    })
   }
 
+  getSquare(gameNumber: number) {
+    this.square$ = this.afs.collection<Square>('squares', ref => {
+      return ref.where("game", "==", gameNumber)
+    })
+      .snapshotChanges().pipe(
+        map(actions => actions.map(a => {
+          const data = a.payload.doc.data() as Square;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        }))
+      );
+  }
 
-  getSquare() {
+  getSquareBoxes(squareId: string) {
+    console.log('getting boxes for ', squareId)
+    const square = this.afs
+      .collection('squares')
+      .doc(squareId);
+    this.boxes$ = this.afs.collection<Box>('boxes', ref => {
+      // return ref.where("square", "==", squareId)
+      return ref.where("square", "==", square.ref)
 
-    //const db = getFirestore(app);
+    })
+      .snapshotChanges().pipe(
+        map(actions => actions.map(a => {
+          const data = a.payload.doc.data() as Box;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        }))
+      );
+  }
+
+  renameBox(val){
+     let b = this.boxes[0]
+    
+     this.afs.doc('boxes/'+b.id).update({name:val}).then(retval=>{
+       console.log(retval);
+     })
   }
 
 }
