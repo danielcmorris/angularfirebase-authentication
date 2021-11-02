@@ -1,6 +1,6 @@
 {
     "hosting": {
-      "public": "public",
+      "public": "dist/angularfirebase-authentication",
       "site": "footballsquares",
       "ignore": [
         "firebase.json",

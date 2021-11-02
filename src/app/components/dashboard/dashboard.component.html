@@ -49,17 +49,26 @@
             </div>
           </div>
         </div>
-         <div *ngIf="squares">
+        <div *ngIf="squares">
           <h1>Game {{squares.game}} - {{squares.opponent}}</h1>
           <ul>
-            <li *ngFor="let box of squares?.boxes">{{box.name}} {{box.home}}-{{box.away}}</li>
+            <li *ngFor="let box of squares?.boxes">{{box.name}} {{box.home}}-{{box.away}} <button (click)="deleteBox(box.id)">X</button></li>
           </ul>
+          <button (click)='renameBox(newName.value)'>Rename</button>
+          <div class="formGroup">
+            <input type="text" placeholder="name" #newName>
+          </div>
+          <hr>
+          <button (click)='addBox(newBoxName.value,newHome.value,newAway.value)'>Add Box</button>
+          <div class="formGroup">
+            <input type="text" placeholder="name" #newBoxName>
+            <input type="text" placeholder="home" #newHome >
+            <input type="text" placeholder="away" #newAway>
+          </div>
+          <hr>
         </div>
       </div>
     </main>
-    <button (click)='renameBox(newName.value)'>Rename</button>
 
-    <div class="formGroup">
-      <input type="text" placeholder="name" #newName>
-    </div>  </div>
+  </div>
 </div>

@@ -62,29 +62,38 @@ export class DashboardComponent implements OnInit {
 
   getSquareBoxes(squareId: string) {
     console.log('getting boxes for ', squareId)
-    const square = this.afs
-      .collection('squares')
-      .doc(squareId);
+ 
     this.boxes$ = this.afs.collection<Box>('boxes', ref => {
-      // return ref.where("square", "==", squareId)
-      return ref.where("square", "==", square.ref)
-
+      return ref.where("squareId", "==", squareId)
     })
-      .snapshotChanges().pipe(
-        map(actions => actions.map(a => {
-          const data = a.payload.doc.data() as Box;
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        }))
-      );
+      // .snapshotChanges().pipe(
+      //   map(actions => actions.map(a => {
+      //     const data = a.payload.doc.data() as Box;
+      //     const id = a.payload.doc.id;
+      //     return { id, ...data };
+      //   }))
+      // )
+      .valueChanges({ idField: 'id' });
   }
 
-  renameBox(val){
-     let b = this.boxes[0]
+  renameBox(val) {
+    let b = this.boxes[0]
+    this.afs.doc('boxes/' + b.id).update({ name: val }).then(retval => {
+      console.log(retval);
+    })
+  }
+ addBox(name,home,away) {
+   
+   let  box:Box={name:name,home:home,away:away,squareId:this.squares.id, uid:this.authService.userData.uid};
+
+    let b = this.boxes[0]
+    this.afs.collection('boxes').add(box).then(retval => {
+      console.log('added box',retval);
+    })
+  }
+  deleteBox(id?){
     
-     this.afs.doc('boxes/'+b.id).update({name:val}).then(retval=>{
-       console.log(retval);
-     })
+    const tutorialsRef = this.afs.collection('boxes').doc(id).delete();
   }
 
 }

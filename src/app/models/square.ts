@@ -1,5 +1,5 @@
 export class Square {
-    id: string;
+    id?: string;
     topNumbers: number[];
     leftNumbers: number[];
     gameNumber: number;
@@ -9,9 +9,10 @@ export class Square {
 }
 
 export class Box {
-    id: string;
+    id?: string;
     home: number;
     away: number;
     name: string;
     uid: string;
+    squareId:string;
 }
